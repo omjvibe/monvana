@@ -63,10 +63,10 @@ export default function SignInPage() {
                 <div>
                     <Link href="/" className="flex items-center gap-2.5">
                         <div className="flex h-11 w-11 items-center justify-center rounded-full overflow-hidden bg-stone-100 shadow-xl border border-stone-200">
-                            <Image src="/images/logo.png" alt={BANK_NAME} width={44} height={44} className="object-cover" />
+                            <Image src="/monvanalogo.jpg" alt={BANK_NAME} width={44} height={44} className="object-cover" />
                         </div>
                         <span className="text-2xl font-bold text-white italic tracking-tight">
-                            Monvana<span className="text-stone-400 font-medium font-serif italic ml-0.5">Bank</span>
+                            Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span>
                         </span>
                     </Link>
                 </div>
@@ -111,9 +111,9 @@ export default function SignInPage() {
                     <div className="flex justify-center lg:hidden">
                         <Link href="/" className="flex items-center gap-2.5">
                             <div className="flex h-10 w-10 items-center justify-center rounded-full overflow-hidden bg-stone-100 dark:bg-stone-100 shadow-lg">
-                                <Image src="/images/logo.png" alt={BANK_NAME} width={40} height={40} className="object-cover" />
+                                <Image src="/monvanalogo.jpg" alt={BANK_NAME} width={40} height={40} className="object-cover" />
                             </div>
-                            <span className="text-xl font-bold italic">Monvana<span className="text-stone-500 font-medium font-serif italic ml-0.5">Bank</span></span>
+                            <span className="text-xl font-bold italic">Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span></span>
                         </Link>
                     </div>
 

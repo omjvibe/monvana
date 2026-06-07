@@ -74,7 +74,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               var _smartsupp = _smartsupp || {};
-              _smartsupp.key = 'a1acf3cbab3417f5c7fa3af2d43f6a755f919517';
+              _smartsupp.key = '3d6c1fb80ae9892e083d96b8f04165ca4af948ec';
               window.smartsupp||(function(d) {
                 var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
                 s=d.getElementsByTagName('script')[0];c=d.createElement('script');

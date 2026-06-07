@@ -1,8 +1,8 @@
 -- =====================================================
 -- MONVANA BANK - CONSOLIDATED DATABASE SCHEMA
--- Supabase PostgreSQL Schema (Consolidated from migrations 001–029)
--- Version: 2.0.0
--- Last Updated: 2026-05-03
+-- Supabase PostgreSQL Schema (Consolidated from migrations 001–032)
+-- Version: 3.0.0
+-- Last Updated: 2026-06-07
 -- =====================================================
 
 -- Enable necessary extensions
@@ -288,17 +288,26 @@ CREATE TABLE IF NOT EXISTS messages (
 );
 
 -- =====================================================
--- AUDIT LOGS TABLE (Restructured in migration 011)
+-- AUDIT LOGS TABLE (Unified: admin actions + system events)
+-- Supports both admin audit trail (admin_id, target_user_id)
+-- and system events (actor_id, actor_email, category, target_type)
 -- =====================================================
 CREATE TABLE IF NOT EXISTS audit_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    admin_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    action VARCHAR(100) NOT NULL,
+    -- Legacy admin audit columns (used by admin routes)
+    admin_id UUID REFERENCES users(id) ON DELETE CASCADE,
     target_user_id UUID REFERENCES users(id) ON DELETE SET NULL,
-    details TEXT,
     ip_address VARCHAR(50),
     user_agent TEXT,
-    metadata JSONB DEFAULT '{}',
+    -- Unified audit columns (used by system events & newer code)
+    actor_id UUID REFERENCES users(id) ON DELETE SET NULL,
+    actor_email VARCHAR(255),
+    action VARCHAR(100) NOT NULL,
+    target_type VARCHAR(50),
+    target_id UUID,
+    target_name VARCHAR(200),
+    details JSONB DEFAULT '{}',
+    category VARCHAR(50) CHECK (category IN ('auth', 'financial', 'security', 'settings', 'user')),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -638,6 +647,8 @@ CREATE INDEX IF NOT EXISTS idx_audit_logs_admin ON audit_logs(admin_id);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_target ON audit_logs(target_user_id);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(action);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_created ON audit_logs(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_actor_id ON audit_logs(actor_id);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_category ON audit_logs(category);
 
 CREATE INDEX IF NOT EXISTS idx_favorite_contacts_user ON favorite_contacts(user_id);
 
@@ -825,6 +836,150 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- =====================================================
+-- SUPABASE AUTH SYNC TRIGGERS (Migration 032)
+-- Auto-provision public.users + wallets on auth.users insert
+-- =====================================================
+
+-- Trigger function for new users
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+DECLARE
+    new_user_id UUID;
+    usd_acc TEXT;
+    btc_acc TEXT;
+    eth_acc TEXT;
+    usdt_acc TEXT;
+    acc_name TEXT;
+    first_name TEXT;
+    last_name TEXT;
+BEGIN
+    -- Extract first name and last name from raw_user_meta_data if present
+    first_name := COALESCE(new.raw_user_meta_data->>'first_name', '');
+    last_name := COALESCE(new.raw_user_meta_data->>'last_name', '');
+    
+    -- Insert user
+    INSERT INTO public.users (
+        clerk_id,
+        email,
+        first_name,
+        last_name,
+        avatar_url,
+        phone,
+        role,
+        status,
+        is_verified
+    ) VALUES (
+        new.id::text,
+        new.email,
+        NULLIF(first_name, ''),
+        NULLIF(last_name, ''),
+        new.raw_user_meta_data->>'avatar_url',
+        new.raw_user_meta_data->>'phone',
+        COALESCE(new.raw_user_meta_data->>'role', 'user'),
+        'active',
+        FALSE
+    )
+    RETURNING id INTO new_user_id;
+
+    -- Account name for wallets
+    IF first_name <> '' OR last_name <> '' THEN
+        acc_name := TRIM(first_name || ' ' || last_name);
+    ELSE
+        acc_name := new.email;
+    END IF;
+
+    -- Generate account numbers and create wallets
+    usd_acc := public.generate_account_number();
+    INSERT INTO public.wallets (
+        user_id, currency, balance, account_type, account_number, account_name, is_primary
+    ) VALUES (
+        new_user_id, 'USD', 0.00, 'savings', usd_acc, acc_name, TRUE
+    );
+
+    btc_acc := public.generate_account_number();
+    INSERT INTO public.wallets (
+        user_id, currency, balance, account_type, account_number, account_name, is_primary
+    ) VALUES (
+        new_user_id, 'BTC', 0.00, 'crypto', btc_acc, acc_name || ' - BTC', FALSE
+    );
+
+    eth_acc := public.generate_account_number();
+    INSERT INTO public.wallets (
+        user_id, currency, balance, account_type, account_number, account_name, is_primary
+    ) VALUES (
+        new_user_id, 'ETH', 0.00, 'crypto', eth_acc, acc_name || ' - ETH', FALSE
+    );
+
+    usdt_acc := public.generate_account_number();
+    INSERT INTO public.wallets (
+        user_id, currency, balance, account_type, account_number, account_name, is_primary
+    ) VALUES (
+        new_user_id, 'USDT', 0.00, 'crypto', usdt_acc, acc_name || ' - USDT', FALSE
+    );
+
+    -- Log audit action
+    INSERT INTO public.audit_logs (
+        actor_id, actor_email, action, target_type, target_id, target_name, details, category
+    ) VALUES (
+        new_user_id, new.email, 'user_registered', 'user', new_user_id, acc_name, 
+        jsonb_build_object('auth_id', new.id::text, 'email', new.email), 'auth'
+    );
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger to execute the function when a new user is created in auth
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+    AFTER INSERT ON auth.users
+    FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- Trigger function for updated users
+CREATE OR REPLACE FUNCTION public.handle_updated_user()
+RETURNS TRIGGER AS $$
+DECLARE
+    first_name TEXT;
+    last_name TEXT;
+BEGIN
+    first_name := COALESCE(new.raw_user_meta_data->>'first_name', '');
+    last_name := COALESCE(new.raw_user_meta_data->>'last_name', '');
+    
+    UPDATE public.users SET
+        email = new.email,
+        first_name = NULLIF(first_name, ''),
+        last_name = NULLIF(last_name, ''),
+        avatar_url = new.raw_user_meta_data->>'avatar_url',
+        phone = new.raw_user_meta_data->>'phone',
+        role = COALESCE(new.raw_user_meta_data->>'role', role)
+    WHERE clerk_id = new.id::text;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger to execute when a user is updated in auth
+DROP TRIGGER IF EXISTS on_auth_user_updated ON auth.users;
+CREATE TRIGGER on_auth_user_updated
+    AFTER UPDATE ON auth.users
+    FOR EACH ROW EXECUTE FUNCTION public.handle_updated_user();
+
+-- Trigger function for deleted users
+CREATE OR REPLACE FUNCTION public.handle_deleted_user()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM public.users WHERE clerk_id = old.id::text;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger to execute when a user is deleted from auth
+DROP TRIGGER IF EXISTS on_auth_user_deleted ON auth.users;
+CREATE TRIGGER on_auth_user_deleted
+    AFTER DELETE ON auth.users
+    FOR EACH ROW EXECUTE FUNCTION public.handle_deleted_user();
+
 -- Auto-generate transaction reference
 CREATE OR REPLACE FUNCTION set_transaction_reference()
 RETURNS TRIGGER AS $$
@@ -990,9 +1145,11 @@ INSERT INTO bank_settings (key, value) VALUES
     ('large_transaction_alert', '10000'),
     ('daily_withdrawal_limit', '50000'),
     ('low_balance_alert', '100'),
-    ('session_timeout', '30'),
+    ('session_timeout', '40'),
     ('max_login_attempts', '5'),
-    ('transfer_otp', 'false')
+    ('transfer_otp', 'false'),
+    ('auto_transfer_approval', 'true'),
+    ('auto_transfer_threshold', '100000')
 ON CONFLICT (key) DO NOTHING;
 
 -- Default exchange rates
@@ -1038,7 +1195,7 @@ GRANT ALL ON kyc_submissions TO service_role;
 -- =====================================================
 -- TABLE COMMENTS
 -- =====================================================
-COMMENT ON TABLE users IS 'User profiles synced with Clerk. RLS uses permissive policies — security enforced at API level.';
+COMMENT ON TABLE users IS 'User profiles synced with Supabase Auth via triggers. RLS uses permissive policies — security enforced at API level.';
 COMMENT ON TABLE wallets IS 'Multi-currency wallets (USD, BTC, ETH, USDT) per user.';
 COMMENT ON TABLE transactions IS 'All financial activities including deposits, withdrawals, transfers, charges.';
 COMMENT ON TABLE deposit_methods IS 'Admin-managed deposit methods. Supports universal (null user_id) and per-user methods.';

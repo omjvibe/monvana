@@ -43,7 +43,7 @@ interface AuditLog {
     admin_id: string;
     action: string;
     target_user_id: string | null;
-    details: string | null;
+    details: string | Record<string, unknown> | null;
     ip_address: string | null;
     created_at: string;
     admin?: {
@@ -179,8 +179,11 @@ export default function AdminAuditLogsPage() {
     const filteredLogs = logs.filter((log) => {
         if (!searchQuery) return true;
         const searchLower = searchQuery.toLowerCase();
+        const detailsStr = typeof log.details === 'object' && log.details !== null
+            ? JSON.stringify(log.details)
+            : String(log.details || '');
         return (
-            log.details?.toLowerCase().includes(searchLower) ||
+            detailsStr.toLowerCase().includes(searchLower) ||
             log.admin?.first_name?.toLowerCase().includes(searchLower) ||
             log.admin?.last_name?.toLowerCase().includes(searchLower) ||
             log.target_user?.first_name?.toLowerCase().includes(searchLower) ||
@@ -370,7 +373,9 @@ export default function AdminAuditLogsPage() {
                                         </TableCell>
                                         <TableCell className="hidden lg:table-cell max-w-xs">
                                             <p className="text-sm text-muted-foreground truncate">
-                                                {log.details || "-"}
+                                                {typeof log.details === 'object' && log.details !== null
+                                                    ? JSON.stringify(log.details)
+                                                    : log.details || "-"}
                                             </p>
                                         </TableCell>
                                         <TableCell className="hidden md:table-cell">

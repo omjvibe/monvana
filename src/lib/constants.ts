@@ -89,6 +89,7 @@ export const ADMIN_NAV_ITEMS = [
     { name: "Inbox", href: "/admin/inbox", icon: "Mail" },
     { name: "Verification", href: "/admin/kyc", icon: "ShieldCheck" },
     { name: "Audit Logs", href: "/admin/audit", icon: "FileText" },
+    { name: "Analytics", href: "/admin/analytics", icon: "BarChart3" },
     { name: "Settings", href: "/admin/settings", icon: "Settings" },
 ] as const;
 

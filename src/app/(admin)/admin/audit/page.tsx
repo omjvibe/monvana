@@ -45,7 +45,7 @@ interface AuditLog {
     action: string;
     actor: string;
     target: string;
-    details: string;
+    details: string | Record<string, unknown>;
     category: string;
     created_at: string;
 }
@@ -124,11 +124,14 @@ export default function AdminAuditPage() {
     };
 
     const filteredLogs = logs.filter((log) => {
+        const detailsStr = typeof log.details === 'object' && log.details !== null
+            ? JSON.stringify(log.details)
+            : String(log.details || '');
         const matchesSearch =
             log.action.toLowerCase().includes(searchQuery.toLowerCase()) ||
             log.actor.toLowerCase().includes(searchQuery.toLowerCase()) ||
             log.target.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            log.details.toLowerCase().includes(searchQuery.toLowerCase());
+            detailsStr.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = categoryFilter === "all" || log.category === categoryFilter;
         return matchesSearch && matchesCategory;
     });
@@ -314,7 +317,9 @@ export default function AdminAuditPage() {
                                             <TableCell>{log.actor}</TableCell>
                                             <TableCell className="hidden md:table-cell">{log.target}</TableCell>
                                             <TableCell className="hidden lg:table-cell max-w-xs truncate text-muted-foreground">
-                                                {log.details}
+                                                {typeof log.details === 'object' && log.details !== null
+                                                    ? JSON.stringify(log.details)
+                                                    : log.details}
                                             </TableCell>
                                             <TableCell>
                                                 <Badge

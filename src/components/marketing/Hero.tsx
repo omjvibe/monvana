@@ -1,164 +1,241 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Shield, Zap, Globe, ChevronRight, ChevronLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { BANK_NAME, BANK_TAGLINE } from "@/lib/constants";
-import { AnimatedGlobe } from "./AnimatedGlobe";
+import { motion } from "framer-motion";
+import { ArrowRight, CheckCircle2, ShieldCheck, TrendingUp, Zap } from "lucide-react";
+import { BANK_NAME } from "@/lib/constants";
 
-const HERO_IMAGES = [
-    "https://images.unsplash.com/photo-1616803140344-6682afb13cda?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1609358905581-e5381612486e?q=80&w=411&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8b25saW5lJTIwYmFua2luZ3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1556742111-a301076d9d18?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG9ubGluZSUyMGJhbmtpbmd8ZW58MHx8MHx8fDA%3D"
+const bullets = [
+    {
+        icon: Zap,
+        title: "Fast, Easy Application",
+        description: "Quick online setup and instant 24/7 support.",
+    },
+    {
+        icon: TrendingUp,
+        title: "Flexible Financial Tools",
+        description: "Multi-asset banking, swapping, and virtual cards.",
+    },
+    {
+        icon: ShieldCheck,
+        title: "Premium Wealth Management",
+        description: "Competitive rates and tailored wealth plans.",
+    },
+];
+
+const avatarBadge = [
+    "/images/user-avatar-1.jpeg",
+    "/images/user-avatar-2.jpeg",
+    "/images/user-avatar-3.jpeg",
 ];
 
 export function Hero() {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
-        }, 5000);
-        return () => clearInterval(timer);
-    }, []);
-
     return (
-        <section className="relative min-h-screen overflow-hidden bg-[#fafaf9] dark:bg-[#0c0a09]">
-            {/* Animated Carousel Background */}
-            <div className="absolute inset-0 z-0">
-                <AnimatePresence initial={false}>
-                    <motion.div
-                        key={currentImageIndex}
-                        initial={{ opacity: 0, scale: 1.05 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 1.5, ease: "easeInOut" }}
-                        className="absolute inset-0"
-                    >
-                        <Image
-                            src={HERO_IMAGES[currentImageIndex]}
-                            alt={`${BANK_NAME} Private Banking`}
-                            fill
-                            className="object-cover"
-                            priority
-                        />
-                        <div className="absolute inset-0 bg-stone-900/40 dark:bg-black/60 mix-blend-multiply" />
-                    </motion.div>
-                </AnimatePresence>
+        <section className="relative min-h-screen overflow-hidden bg-[#09090b]">
+            {/* Ambient background glows */}
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+                <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full bg-[#00DF89]/8 blur-[140px]" />
+                <div className="absolute top-1/3 -right-40 h-[500px] w-[500px] rounded-full bg-[#00DF89]/5 blur-[120px]" />
+                <div className="absolute bottom-0 left-0 h-[400px] w-[600px] rounded-full bg-stone-800/30 blur-[100px]" />
             </div>
 
-            {/* Premium Stone Gradient overlays */}
-            <div className="absolute inset-0 z-0 bg-gradient-to-b from-stone-950/80 via-stone-900/50 to-stone-950/90 dark:from-stone-950/90 dark:via-stone-950/70 dark:to-stone-950" />
-
-            {/* Grid Pattern Overlay */}
-            <div className="absolute inset-0 z-0 opacity-[0.05] dark:opacity-[0.05]">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:64px_64px]" />
+            {/* Subtle grid */}
+            <div className="pointer-events-none absolute inset-0 opacity-[0.03]">
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:72px_72px]" />
             </div>
 
-            <div className="container relative z-10 mx-auto flex min-h-screen items-center px-4 py-20 md:px-6">
-                <div className="mx-auto max-w-5xl text-center">
-                    {/* Badge - Refined */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <span className="inline-flex items-center rounded-full border border-stone-400/30 bg-stone-900/50 backdrop-blur-md px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-stone-200 dark:border-stone-700 dark:bg-stone-900/50 dark:text-stone-300">
-                            <Shield className="mr-2 h-3.5 w-3.5 text-amber-400" />
-                            Premium Wealth Management
-                        </span>
-                    </motion.div>
+            <div className="container relative z-10 mx-auto px-4 md:px-6">
+                <div className="flex min-h-screen items-center py-20 lg:py-28">
+                    <div className="grid w-full items-center gap-16 lg:grid-cols-2 lg:gap-20">
 
-                    {/* Heading - Elegant */}
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                        className="mt-8 text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-xl"
-                    >
-                        The Future of{" "}
-                        <span className="relative inline-block italic font-serif">
-                            <span className="relative z-10 bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent">
-                                Wealth
-                            </span>
-                        </span>
-                    </motion.h1>
+                        {/* ─── LEFT COLUMN ─── */}
+                        <div>
+                            {/* Badge */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 16 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <span className="inline-flex items-center gap-2 rounded-full border border-[#00DF89]/25 bg-[#00DF89]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-[#00DF89]">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-[#00DF89] animate-pulse" />
+                                    Premium Digital Banking
+                                </span>
+                            </motion.div>
 
-                    {/* Subheading - Sophisticated */}
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="mx-auto mt-8 max-w-3xl text-lg text-stone-300 md:text-xl lg:text-2xl font-light drop-shadow-md"
-                    >
-                        {BANK_NAME}. {BANK_TAGLINE}. We provide bespoke financial solutions
-                        for individuals and institutions who demand excellence, security, and global mobility.
-                    </motion.p>
+                            {/* Heading */}
+                            <motion.h1
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.1 }}
+                                className="mt-8 text-5xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-7xl"
+                            >
+                                Unlock Your{" "}
+                                <span className="relative">
+                                    <span className="bg-gradient-to-r from-[#00DF89] to-[#00b870] bg-clip-text text-transparent italic font-serif">
+                                        Financial
+                                    </span>
+                                </span>
+                                {" "}Potential
+                            </motion.h1>
 
-                    {/* CTA Buttons */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                        className="mt-12 flex flex-col items-center justify-center gap-6 sm:flex-row"
-                    >
-                        <Button size="lg" asChild className="group min-w-[200px] bg-amber-500 text-stone-950 hover:bg-amber-400 dark:bg-amber-500 dark:text-stone-900 dark:hover:bg-amber-400 shadow-[0_0_40px_-10px_rgba(245,158,11,0.5)] border border-amber-400/50 transition-all">
-                            <Link href="/sign-up">
-                                Get Started
-                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                            </Link>
-                        </Button>
-                        <Button size="lg" variant="outline" asChild className="min-w-[200px] border-stone-300/30 text-white hover:bg-stone-800/50 dark:border-stone-700 dark:text-stone-100 dark:hover:bg-stone-900/50 backdrop-blur-md">
-                            <Link href="/#services">Private Banking</Link>
-                        </Button>
-                    </motion.div>
+                            {/* Subtext */}
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                className="mt-6 max-w-lg text-lg text-stone-400 font-light leading-relaxed"
+                            >
+                                {BANK_NAME} delivers bespoke financial solutions for individuals and institutions who demand excellence, security, and global reach.
+                            </motion.p>
 
-                    {/* Carousel Indicators */}
-                    <motion.div 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1 }}
-                        className="mt-16 flex items-center justify-center gap-3"
-                    >
-                        {HERO_IMAGES.map((_, idx) => (
-                            <button
-                                key={idx}
-                                onClick={() => setCurrentImageIndex(idx)}
-                                className={`h-1.5 rounded-full transition-all duration-300 ${
-                                    idx === currentImageIndex ? "w-8 bg-amber-400" : "w-2 bg-stone-500/50 hover:bg-stone-400"
-                                }`}
-                                aria-label={`Go to slide ${idx + 1}`}
-                            />
-                        ))}
-                    </motion.div>
+                            {/* Bullets */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.3 }}
+                                className="mt-10 space-y-5"
+                            >
+                                {bullets.map((bullet, i) => (
+                                    <motion.div
+                                        key={bullet.title}
+                                        initial={{ opacity: 0, x: -16 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
+                                        className="flex items-start gap-4 group"
+                                    >
+                                        <div className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border border-[#00DF89]/25 bg-[#00DF89]/10 transition-colors group-hover:bg-[#00DF89]/20">
+                                            <bullet.icon className="h-4 w-4 text-[#00DF89]" />
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-white text-sm">{bullet.title}</p>
+                                            <p className="mt-0.5 text-sm text-stone-500 font-light">{bullet.description}</p>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </motion.div>
 
-                    {/* Stats Bar - Minimalist */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.7 }}
-                        className="mt-20 flex flex-wrap items-center justify-center gap-12 text-center md:gap-24 opacity-90"
-                    >
-                        {[
-                            { label: "Assets Managed", value: "$4.8B+" },
-                            { label: "High-Net-Worth Clients", value: "12K+" },
-                            { label: "Global Coverage", value: "190+" }
-                        ].map((stat) => (
-                            <div key={stat.label}>
-                                <div className="text-3xl font-light text-white md:text-4xl">{stat.value}</div>
-                                <div className="text-[10px] uppercase tracking-[0.2em] text-stone-400 mt-2">{stat.label}</div>
+                            {/* CTAs */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.6 }}
+                                className="mt-12 flex flex-wrap items-center gap-4"
+                            >
+                                <Link
+                                    href="/sign-up"
+                                    className="inline-flex items-center gap-2 rounded-xl bg-[#00DF89] px-7 py-3.5 text-sm font-bold text-black transition-all duration-200 hover:bg-[#00c578] hover:shadow-[0_0_32px_rgba(0,223,137,0.4)] active:scale-95"
+                                >
+                                    Get Started Free
+                                    <ArrowRight className="h-4 w-4" />
+                                </Link>
+                                <Link
+                                    href="/#services"
+                                    className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-7 py-3.5 text-sm font-medium text-white transition-all duration-200 hover:bg-white/10 backdrop-blur-sm"
+                                >
+                                    Explore Services
+                                </Link>
+                            </motion.div>
+
+                            {/* Social proof badge */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 16 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.75 }}
+                                className="mt-10 flex items-center gap-4"
+                            >
+                                <div className="flex -space-x-2.5">
+                                    {avatarBadge.map((src, i) => (
+                                        <div
+                                            key={i}
+                                            className="h-9 w-9 rounded-full border-2 border-[#09090b] overflow-hidden ring-1 ring-[#00DF89]/30"
+                                        >
+                                            <Image src={src} alt={`Client ${i + 1}`} width={36} height={36} className="object-cover" />
+                                        </div>
+                                    ))}
+                                </div>
+                                <div>
+                                    <p className="text-sm font-semibold text-white">12K+ HNW Clients</p>
+                                    <div className="flex items-center gap-1 mt-0.5">
+                                        {[...Array(5)].map((_, i) => (
+                                            <svg key={i} className="h-3 w-3 fill-[#00DF89]" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                        ))}
+                                        <span className="text-xs text-stone-400 ml-1">5.0 trusted rating</span>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+
+                        {/* ─── RIGHT COLUMN ─── */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 1, delay: 0.2 }}
+                            className="relative hidden lg:block"
+                        >
+                            {/* Decorative corner brackets */}
+                            <div className="absolute -top-4 -left-4 h-10 w-10 border-t-2 border-l-2 border-[#00DF89]/60 rounded-tl-lg" />
+                            <div className="absolute -bottom-4 -right-4 h-10 w-10 border-b-2 border-r-2 border-[#00DF89]/60 rounded-br-lg" />
+
+                            {/* Glow behind image */}
+                            <div className="absolute inset-4 bg-[#00DF89]/10 blur-3xl rounded-full" />
+
+                            {/* Image container */}
+                            <div className="relative overflow-hidden rounded-3xl border border-[#00DF89]/20 shadow-[0_0_60px_rgba(0,223,137,0.12)] aspect-[4/5]">
+                                <Image
+                                    src="/images/hero-executive.jpeg"
+                                    alt="Monvana Premium Banking Executive"
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                />
+                                {/* Gradient overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/90 via-transparent to-transparent" />
+
+                                {/* Bottom card overlay */}
+                                <div className="absolute bottom-6 left-6 right-6">
+                                    <div className="rounded-2xl border border-white/10 bg-black/60 backdrop-blur-xl p-5">
+                                        <div className="flex items-start justify-between gap-3">
+                                            <div>
+                                                <p className="text-xs uppercase tracking-widest text-[#00DF89] font-semibold">Portfolio Performance</p>
+                                                <p className="mt-1.5 text-2xl font-bold text-white">$4.8B+</p>
+                                                <p className="text-xs text-stone-400 mt-0.5">Assets Under Management</p>
+                                            </div>
+                                            <div className="flex items-center gap-1.5 rounded-lg bg-[#00DF89]/15 border border-[#00DF89]/25 px-3 py-1.5">
+                                                <TrendingUp className="h-3.5 w-3.5 text-[#00DF89]" />
+                                                <span className="text-xs font-bold text-[#00DF89]">+24.7%</span>
+                                            </div>
+                                        </div>
+                                        <div className="mt-4 flex gap-4 text-center">
+                                            {[
+                                                { label: "Countries", value: "190+" },
+                                                { label: "Uptime", value: "99.9%" },
+                                                { label: "Transactions", value: "$2.5B+" },
+                                            ].map((s) => (
+                                                <div key={s.label} className="flex-1">
+                                                    <p className="text-sm font-bold text-white">{s.value}</p>
+                                                    <p className="text-[10px] uppercase tracking-wider text-stone-500 mt-0.5">{s.label}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Award badge top-right */}
+                                <div className="absolute top-5 right-5 flex flex-col items-center rounded-2xl border border-[#00DF89]/30 bg-black/70 backdrop-blur-md px-4 py-3 text-center shadow-xl">
+                                    <CheckCircle2 className="h-5 w-5 text-[#00DF89]" />
+                                    <p className="mt-1.5 text-[10px] uppercase tracking-widest text-[#00DF89] font-bold">Certified</p>
+                                    <p className="text-[10px] text-stone-400">ISO 27001</p>
+                                </div>
                             </div>
-                        ))}
-                    </motion.div>
+                        </motion.div>
+
+                    </div>
                 </div>
             </div>
 
-            {/* Bottom gradient fade */}
-            <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-stone-50 via-stone-50/80 to-transparent dark:from-stone-950 dark:via-stone-950/80" />
-        </section >
+            {/* Bottom fade */}
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#09090b] to-transparent" />
+        </section>
     );
 }

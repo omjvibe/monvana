@@ -21,6 +21,7 @@ import {
     MessageCircle,
     Mail,
     LogOut,
+    BarChart3,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -42,6 +43,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
     Settings,
     MessageCircle,
     Mail,
+    BarChart3,
 };
 
 export default function AdminDashboardLayout({
@@ -91,10 +93,10 @@ export default function AdminDashboardLayout({
                 <div className="flex h-16 items-center gap-2 border-b border-border px-6">
                     <Link href="/admin" className="flex items-center gap-2">
                         <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-stone-100 dark:bg-stone-800">
-                            <Image src="/images/logo.png" alt={BANK_NAME} width={32} height={32} className="object-cover" />
+                            <Image src="/monvanalogo.jpg" alt={BANK_NAME} width={32} height={32} className="object-cover" />
                         </div>
                         <div>
-                            <span className="text-lg font-semibold italic">Monvana<span className="text-muted-foreground font-medium font-serif italic ml-0.5">Bank</span></span>
+                            <span className="text-lg font-semibold italic">Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span></span>
                             <Badge variant="secondary" className="ml-2 text-xs">
                                 Admin
                             </Badge>
@@ -140,9 +142,9 @@ export default function AdminDashboardLayout({
                         <SheetContent side="left" className="w-64 p-0">
                             <div className="flex h-16 items-center gap-2 border-b border-border px-6">
                                 <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-stone-100 dark:bg-stone-800">
-                                    <Image src="/images/logo.png" alt={BANK_NAME} width={32} height={32} className="object-cover" />
+                                    <Image src="/monvanalogo.jpg" alt={BANK_NAME} width={32} height={32} className="object-cover" />
                                 </div>
-                                <span className="text-lg font-semibold italic">Monvana<span className="text-muted-foreground font-medium font-serif italic ml-0.5">Bank</span></span>
+                                <span className="text-lg font-semibold italic">Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span></span>
                             </div>
                             <ScrollArea className="flex-1 px-4 py-4">
                                 <nav className="space-y-1">

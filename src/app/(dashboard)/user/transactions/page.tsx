@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useUser } from "@/hooks/useAuth";
 import { motion } from "framer-motion";
-import { Loader2, Search, ArrowUpRight, ArrowDownRight, Filter } from "lucide-react";
+import { Loader2, Search, ArrowUpRight, ArrowDownRight, Filter, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { createClient } from "@supabase/supabase-js";
+import { downloadReceipt } from "@/lib/receipt";
 
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || "",
@@ -282,16 +283,27 @@ export default function TransactionsPage() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="text-right">
-                                                    <p
-                                                        className={`font-semibold ${credit ? "text-green-600" : "text-stone-900 dark:text-stone-100"
-                                                            }`}
+                                                <div className="flex items-center gap-3">
+                                                    <div className="text-right">
+                                                        <p
+                                                            className={`font-semibold ${credit ? "text-green-600" : "text-stone-900 dark:text-stone-100"
+                                                                }`}
+                                                        >
+                                                            {credit ? "+" : "-"}{formatCurrency(tx.amount)}
+                                                        </p>
+                                                        <Badge className={getStatusColor(tx.status)}>
+                                                            {tx.status}
+                                                        </Badge>
+                                                    </div>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="h-8 w-8 text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 flex-shrink-0"
+                                                        title="Download Receipt"
+                                                        onClick={() => downloadReceipt(tx)}
                                                     >
-                                                        {credit ? "+" : "-"}{formatCurrency(tx.amount)}
-                                                    </p>
-                                                    <Badge className={getStatusColor(tx.status)}>
-                                                        {tx.status}
-                                                    </Badge>
+                                                        <Download className="h-4 w-4" />
+                                                    </Button>
                                                 </div>
                                             </div>
                                             {index < filteredTransactions.length - 1 && (

@@ -60,6 +60,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { downloadReceipt } from "@/lib/receipt";
 
 interface Transaction {
     id: string;
@@ -576,6 +577,10 @@ export default function AdminTransactionsPage() {
                                                         }}>
                                                             <Eye className="mr-2 h-4 w-4" />
                                                             View Details
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem onClick={() => downloadReceipt(tx)}>
+                                                            <FileText className="mr-2 h-4 w-4" />
+                                                            Print Receipt
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem onClick={() => handleOpenEditDialog(tx)}>
                                                             <Pencil className="mr-2 h-4 w-4" />

@@ -62,14 +62,14 @@ export function Footer() {
                         <Link href="/" className="flex items-center gap-2.5 group">
                             <div className="relative h-9 w-9 overflow-hidden rounded-full bg-stone-100 p-1 shadow-sm transition-transform group-hover:scale-110 dark:bg-stone-800">
                                 <Image
-                                    src="/images/logo.png"
+                                    src="/monvanalogo.jpg"
                                     alt={BANK_NAME}
                                     fill
                                     className="object-contain"
                                 />
                             </div>
                             <span className="text-xl font-bold tracking-tight text-stone-950 dark:text-stone-50">
-                                Monvana<span className="text-stone-500 font-medium font-serif italic ml-0.5">Bank</span>
+                                Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span>
                             </span>
                         </Link>
                         <p className="mt-4 max-w-xs text-sm text-stone-500 dark:text-stone-400 font-light leading-relaxed">

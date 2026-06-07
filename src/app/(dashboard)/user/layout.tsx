@@ -242,9 +242,9 @@ export default function UserDashboardLayout({
                     <div className="flex h-16 items-center gap-2 border-b border-stone-200 px-6 dark:border-stone-800">
                         <Link href="/" className="flex items-center gap-2.5 group">
                             <div className="flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-lg">
-                                <Image src="/images/logo.png" alt={BANK_NAME} width={36} height={36} className="object-cover" />
+                                <Image src="/monvanalogo.jpg" alt={BANK_NAME} width={36} height={36} className="object-cover" />
                             </div>
-                            <span className="text-lg font-bold text-stone-900 dark:text-stone-100 italic">Monvana<span className="text-stone-500 font-medium font-serif italic ml-0.5">Bank</span></span>
+                            <span className="text-lg font-bold text-stone-900 dark:text-stone-100 italic">Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span></span>
                         </Link>
                     </div>
 
@@ -286,9 +286,9 @@ export default function UserDashboardLayout({
                             <SheetContent side="left" className="w-64 p-0 flex flex-col">
                                 <div className="flex h-16 items-center gap-2.5 border-b border-stone-200 px-6 dark:border-stone-800">
                                     <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-stone-100 dark:bg-stone-800">
-                                        <Image src="/images/logo.png" alt={BANK_NAME} width={32} height={32} className="object-cover" />
+                                        <Image src="/monvanalogo.jpg" alt={BANK_NAME} width={32} height={32} className="object-cover" />
                                     </div>
-                                    <span className="text-lg font-bold italic">Monvana<span className="text-stone-500 font-medium font-serif italic ml-0.5">Bank</span></span>
+                                    <span className="text-lg font-bold italic">Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span></span>
                                 </div>
                                 <ScrollArea className="flex-1 px-4 py-4">
                                     <nav className="space-y-1">
