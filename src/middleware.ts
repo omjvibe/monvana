@@ -49,7 +49,8 @@ export async function middleware(request: NextRequest) {
         path === "/contact" ||
         path === "/session-expired" ||
         path.startsWith("/api/webhooks") ||
-        path === "/api/setup-admin";
+        path === "/api/setup-admin" ||
+        path.startsWith("/api/auth/callback");
 
     const isApiRoute = path.startsWith("/api");
     const isAdminRoute = path.startsWith("/admin");
