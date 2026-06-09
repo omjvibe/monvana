@@ -225,9 +225,9 @@ CREATE POLICY "loan_applications_delete" ON public.loan_applications FOR DELETE 
 -- Loan Documents
 CREATE POLICY "loan_documents_select" ON public.loan_documents FOR SELECT USING (
   EXISTS (
-    SELECT 1 FROM public.loans 
-    WHERE loans.id = loan_documents.loan_id 
-    AND (loans.user_id = public.get_current_user_id() OR public.is_admin())
+    SELECT 1 FROM public.loan_applications 
+    WHERE loan_applications.id = loan_documents.application_id 
+    AND (loan_applications.user_id = public.get_current_user_id() OR public.is_admin())
   )
 );
 CREATE POLICY "loan_documents_all" ON public.loan_documents FOR ALL USING (public.is_admin());
