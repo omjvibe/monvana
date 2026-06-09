@@ -109,7 +109,7 @@ export default function SignUpPage() {
                             <Image src="/monvanalogo.jpg" alt={BANK_NAME} width={44} height={44} className="object-cover" />
                         </div>
                         <span className="text-2xl font-bold text-white italic tracking-tight">
-                            Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span>
+                            Monvana<span className="text-[#00DF89] font-medium italic ml-0.5">Bank</span>
                         </span>
                     </Link>
                 </div>
@@ -158,7 +158,7 @@ export default function SignUpPage() {
                             <div className="flex h-10 w-10 items-center justify-center rounded-full overflow-hidden bg-stone-100 dark:bg-stone-100 shadow-lg">
                                 <Image src="/monvanalogo.jpg" alt={BANK_NAME} width={40} height={40} className="object-cover" />
                             </div>
-                            <span className="text-xl font-bold italic">Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span></span>
+                            <span className="text-xl font-bold italic">Monvana<span className="text-[#00DF89] font-medium italic ml-0.5">Bank</span></span>
                         </Link>
                     </div>
 

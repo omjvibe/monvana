@@ -49,11 +49,11 @@ export function ExchangeRates() {
                         viewport={{ once: true }}
                         className="lg:col-span-5 flex flex-col justify-center"
                     >
-                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-500">
+                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00DF89]">
                             Global Markets
                         </span>
-                        <h2 className="mt-4 text-4xl font-bold tracking-tight text-white md:text-5xl font-serif italic">
-                            Live Exchange <span className="bg-gradient-to-r from-stone-200 to-stone-500 bg-clip-text text-transparent">Rates.</span>
+                        <h2 className="mt-4 text-4xl font-bold tracking-tight text-white md:text-5xl italic">
+                            Live Exchange <span className="bg-gradient-to-r from-[#00DF89] to-[#00b870] bg-clip-text text-transparent">Rates.</span>
                         </h2>
                         <p className="mt-6 text-lg text-stone-400 font-light leading-relaxed">
                             Access real-time currency exchange rates driven by advanced institutional algorithms. Execute transfers with absolute precision at competitive rates.
@@ -86,7 +86,7 @@ export function ExchangeRates() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.3, delay: index * 0.1 }}
-                                    className="rounded-2xl border border-stone-800 bg-stone-900/40 p-6 backdrop-blur-sm transition-all duration-300 hover:border-amber-500/30 hover:bg-stone-900/60 shadow-lg group"
+                                    className="rounded-2xl border border-stone-800 bg-stone-900/40 p-6 backdrop-blur-sm transition-all duration-300 hover:border-[#00DF89]/30 hover:bg-stone-900/60 shadow-lg group"
                                 >
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-3">
@@ -104,7 +104,7 @@ export function ExchangeRates() {
                                         )}
                                     </div>
                                     <div className="mt-4 flex items-baseline justify-between">
-                                        <span className="text-3xl font-bold text-white font-serif tracking-tight">
+                                        <span className="text-3xl font-bold text-white tracking-tight">
                                             {item.rate.toFixed(item.rate > 100 ? 2 : 4)}
                                         </span>
                                         <span

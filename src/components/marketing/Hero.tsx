@@ -40,10 +40,7 @@ export function Hero() {
                 <div className="absolute bottom-0 left-0 h-[400px] w-[600px] rounded-full bg-stone-800/30 blur-[100px]" />
             </div>
 
-            {/* Subtle grid */}
-            <div className="pointer-events-none absolute inset-0 opacity-[0.03]">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:72px_72px]" />
-            </div>
+
 
             <div className="container relative z-10 mx-auto px-4 md:px-6">
                 <div className="flex min-h-screen items-center py-20 lg:py-28">
@@ -68,11 +65,11 @@ export function Hero() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.1 }}
-                                className="mt-8 text-5xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-7xl"
+                                className="mt-8 text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl"
                             >
                                 Unlock Your{" "}
                                 <span className="relative">
-                                    <span className="bg-gradient-to-r from-[#00DF89] to-[#00b870] bg-clip-text text-transparent italic font-serif">
+                                    <span className="bg-gradient-to-r from-[#00DF89] to-[#00b870] bg-clip-text text-transparent italic">
                                         Financial
                                     </span>
                                 </span>

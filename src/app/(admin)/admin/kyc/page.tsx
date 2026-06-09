@@ -151,7 +151,7 @@ export default function AdminKYCPage() {
                         <ShieldCheck className="h-6 w-6 text-stone-600" />
                         Verification Requests
                     </h1>
-                    <p className="text-stone-500 text-sm italic font-serif">Monvana Compliance Protocol — Bank Review</p>
+                    <p className="text-stone-500 text-sm italic">Monvana Compliance Protocol — Bank Review</p>
                 </div>
                 <div className="flex items-center gap-2">
                     <Badge variant="outline" className="bg-stone-50 px-3 py-1 text-xs text-stone-600 border-stone-200">
@@ -308,7 +308,7 @@ export default function AdminKYCPage() {
 
                                 <div className="space-y-6">
                                     <div className="bg-stone-50 dark:bg-stone-900 p-6 rounded-xl border border-stone-100 dark:border-stone-800 space-y-4">
-                                        <h3 className="font-serif italic text-lg pb-2 border-b">Verification Verdict</h3>
+                                        <h3 className="italic text-lg pb-2 border-b">Verification Verdict</h3>
 
                                         <div className="space-y-2 text-sm">
                                             <div className="flex justify-between">

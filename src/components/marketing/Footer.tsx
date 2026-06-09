@@ -69,7 +69,7 @@ export function Footer() {
                                 />
                             </div>
                             <span className="text-xl font-bold tracking-tight text-stone-950 dark:text-stone-50">
-                                Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span>
+                                Monvana<span className="text-[#00DF89] font-medium italic ml-0.5">Bank</span>
                             </span>
                         </Link>
                         <p className="mt-4 max-w-xs text-sm text-stone-500 dark:text-stone-400 font-light leading-relaxed">

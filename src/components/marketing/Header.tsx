@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronRight } from "lucide-react";
 import { BANK_NAME } from "@/lib/constants";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 const navItems = [
     { name: "Home", href: "/" },
@@ -46,7 +47,7 @@ export function Header() {
                         />
                     </div>
                     <span className="text-lg font-bold tracking-tight text-white">
-                        Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span>
+                        Monvana<span className="text-[#00DF89] font-medium italic ml-0.5">Bank</span>
                     </span>
                 </Link>
 
@@ -66,6 +67,7 @@ export function Header() {
 
                 {/* Right — Actions */}
                 <div className="hidden md:flex items-center gap-3">
+                    <ThemeToggle />
                     {isSignedIn ? (
                         <Link
                             href="/user"
@@ -125,6 +127,10 @@ export function Header() {
                                 </Link>
                             ))}
                             <div className="mt-3 flex flex-col gap-2 border-t border-white/5 pt-3">
+                                <div className="flex items-center justify-between px-4 py-2 text-sm text-stone-400">
+                                    <span>Theme</span>
+                                    <ThemeToggle />
+                                </div>
                                 {isSignedIn ? (
                                     <Link
                                         href="/user"

@@ -88,7 +88,7 @@ export default function KYCGuard({ children }: { children: React.ReactNode }) {
                         <div className="mx-auto h-16 w-16 bg-stone-100 dark:bg-stone-900 rounded-full flex items-center justify-center mb-4">
                             <Lock className="h-8 w-8 text-stone-600" />
                         </div>
-                        <CardTitle className="text-2xl font-serif italic">Identity Verification Required</CardTitle>
+                        <CardTitle className="text-2xl italic">Identity Verification Required</CardTitle>
                         <p className="text-stone-500 text-sm mt-2">
                             To ensure the security of our institutional ecosystem, you must complete identity verification before accessing financial services.
                         </p>

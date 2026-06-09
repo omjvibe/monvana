@@ -204,7 +204,7 @@ export default function KYCPage() {
     return (
         <div className="max-w-4xl mx-auto space-y-8 p-4 md:p-8">
             <header className="flex flex-col gap-2">
-                <h1 className="text-3xl font-serif italic text-stone-900 dark:text-stone-100">Identity Verification</h1>
+                <h1 className="text-3xl italic text-stone-900 dark:text-stone-100">Identity Verification</h1>
                 <p className="text-stone-500 text-sm">Verify your identity to unlock full banking features and higher limits.</p>
             </header>
 

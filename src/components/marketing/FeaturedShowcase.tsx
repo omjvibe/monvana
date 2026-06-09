@@ -11,7 +11,7 @@ export function FeaturedShowcase() {
         <section className="bg-[#0a0a0a] py-24 md:py-32 relative overflow-hidden text-white">
             {/* Background elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-amber-500/10 blur-[120px]" />
+                <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-[#00DF89]/10 blur-[120px]" />
                 <div className="absolute bottom-[10%] right-[5%] w-[40%] h-[40%] rounded-full bg-stone-500/10 blur-[100px]" />
             </div>
 
@@ -22,10 +22,10 @@ export function FeaturedShowcase() {
                     viewport={{ once: true }}
                     className="mx-auto max-w-3xl text-center mb-20"
                 >
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-500">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00DF89]">
                         Monvana Standard
                     </span>
-                    <h2 className="mt-4 text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl text-white font-serif italic">
+                    <h2 className="mt-4 text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl text-white italic">
                         Modern Banking, Refined.
                     </h2>
                     <p className="mt-6 text-xl text-stone-400 font-light leading-relaxed">
@@ -54,8 +54,8 @@ export function FeaturedShowcase() {
                             <div className="absolute bottom-6 left-6 right-6">
                                 <div className="backdrop-blur-md bg-white/10 p-4 rounded-xl border border-white/20">
                                     <div className="flex items-center gap-4">
-                                        <div className="h-12 w-12 rounded-full bg-amber-500/20 flex items-center justify-center border border-amber-500/30">
-                                            <ShieldCheck className="h-6 w-6 text-amber-400" />
+                                        <div className="h-12 w-12 rounded-full bg-[#00DF89]/20 flex items-center justify-center border border-[#00DF89]/30">
+                                            <ShieldCheck className="h-6 w-6 text-[#00DF89]" />
                                         </div>
                                         <div>
                                             <h4 className="font-semibold text-white">Military Grade</h4>
@@ -76,7 +76,7 @@ export function FeaturedShowcase() {
                         className="flex flex-col gap-10"
                     >
                         <div className="space-y-6">
-                            <h3 className="text-3xl md:text-4xl font-bold text-white font-serif italic">
+                            <h3 className="text-3xl md:text-4xl font-bold text-white italic">
                                 Digital Sovereignty
                             </h3>
                             <p className="text-stone-400 font-light text-lg leading-relaxed">
@@ -84,7 +84,7 @@ export function FeaturedShowcase() {
                                 Exercise total control over your digital footprint with instant
                                 issuance, freezing, and multi-currency support.
                             </p>
-                            <Button asChild size="lg" className="w-fit bg-amber-500 hover:bg-amber-400 text-stone-950 font-medium">
+                            <Button asChild size="lg" className="w-fit bg-[#00DF89] hover:bg-[#00c578] text-black font-semibold">
                                 <Link href="/sign-up">
                                     Apply for Membership <ArrowRight className="ml-2 h-4 w-4" />
                                 </Link>
@@ -130,10 +130,10 @@ export function FeaturedShowcase() {
                             transition={{ duration: 0.6, delay: idx * 0.1 }}
                             className="flex flex-col items-center text-center p-10 rounded-3xl backdrop-blur-sm bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all shadow-xl group"
                         >
-                            <div className="mb-6 p-4 rounded-2xl bg-gradient-to-br from-stone-800 to-stone-900 border border-stone-700 group-hover:border-amber-500/50 transition-colors">
-                                <item.icon className="w-8 h-8 text-amber-400" />
+                            <div className="mb-6 p-4 rounded-2xl bg-gradient-to-br from-stone-800 to-stone-900 border border-stone-700 group-hover:border-[#00DF89]/40 transition-colors">
+                                <item.icon className="w-8 h-8 text-[#00DF89]" />
                             </div>
-                            <h4 className="text-xl font-semibold text-white font-serif">{item.title}</h4>
+                            <h4 className="text-xl font-semibold text-white">{item.title}</h4>
                             <p className="mt-4 text-sm text-stone-400 font-light leading-relaxed">
                                 {item.desc}
                             </p>

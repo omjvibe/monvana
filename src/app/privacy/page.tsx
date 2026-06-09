@@ -27,7 +27,7 @@ export default function PrivacyPolicyPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="space-y-4 text-center mb-16"
                 >
-                    <h1 className="text-5xl font-serif italic mb-4">Privacy & Data Sovereignity</h1>
+                    <h1 className="text-5xl italic mb-4">Privacy & Data Sovereignity</h1>
                     <p className="text-stone-500 max-w-2xl mx-auto lead">
                         At Monvana, we believe your financial data is an extension of your identity.
                         Our commitment to privacy is absolute, governed by sovereign encryption and institutional integrity.
@@ -44,7 +44,7 @@ export default function PrivacyPolicyPage() {
                     <section className="space-y-6">
                         <div className="flex items-center gap-3 text-stone-900 dark:text-stone-100">
                             <Shield className="h-6 w-6 text-stone-400" />
-                            <h2 className="text-2xl font-semibold italic font-serif">1. Mandatory Identity Verification (KYC)</h2>
+                            <h2 className="text-2xl font-semibold italic">1. Mandatory Identity Verification (KYC)</h2>
                         </div>
                         <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 p-8 rounded-3xl space-y-4 leading-relaxed">
                             <p>
@@ -52,11 +52,11 @@ export default function PrivacyPolicyPage() {
                             </p>
                             <p className="font-semibold underline">We collect and process the following sensitive data points:</p>
                             <ul className="list-disc pl-6 space-y-2 text-stone-600 dark:text-stone-400">
-                                <li>Social Security Numbers (SSN), National Identification Numbers (NIN), or equivalent government-issued tax identifiers.</li>
+                                <li>Social Security Numbers (SSN), National Identification Numbers (NIN), or government-issued identifiers.</li>
                                 <li>High-resolution digital captures of government-issued identification documents.</li>
                                 <li>Biometric facial geometry verification (selfie-to-document matching).</li>
                                 <li>Verified proof of residential or institutional address (utility invoices, bank certifications).</li>
-                            </ul>
+                             </ul>
                             <p className="text-sm italic text-stone-500 bg-stone-50 dark:bg-stone-950 p-4 rounded-xl border-l-4 border-stone-900">
                                 Note: Admin personnel manually verify these identifiers to ensure zero-latency authenticity. Your full identification numbers are visible to authorized compliance officers for secondary verification on international secure gateways.
                             </p>
@@ -67,7 +67,7 @@ export default function PrivacyPolicyPage() {
                     <section className="space-y-6">
                         <div className="flex items-center gap-3 text-stone-900 dark:text-stone-100">
                             <Lock className="h-6 w-6 text-stone-400" />
-                            <h2 className="text-2xl font-semibold italic font-serif">2. How We Protect Your Sovereign Data</h2>
+                            <h2 className="text-2xl font-semibold italic">2. How We Protect Your Sovereign Data</h2>
                         </div>
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="border border-stone-200 dark:border-stone-800 p-6 rounded-2xl bg-white dark:bg-stone-900">
@@ -93,7 +93,7 @@ export default function PrivacyPolicyPage() {
                     <section className="space-y-6">
                         <div className="flex items-center gap-3 text-stone-900 dark:text-stone-100">
                             <ChevronRight className="h-6 w-6 text-stone-400" />
-                            <h2 className="text-2xl font-semibold italic font-serif">3. Your Consent and Rights</h2>
+                            <h2 className="text-2xl font-semibold italic">3. Your Consent and Rights</h2>
                         </div>
                         <div className="space-y-4 text-stone-600 dark:text-stone-400">
                             <p>

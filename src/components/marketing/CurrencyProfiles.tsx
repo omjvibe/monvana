@@ -60,11 +60,11 @@ export function CurrencyProfiles() {
                     viewport={{ once: true }}
                     className="mx-auto max-w-3xl text-center"
                 >
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-500">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00DF89]">
                         Supported Currencies
                     </span>
-                    <h2 className="mt-4 text-4xl font-bold tracking-tight text-white md:text-5xl font-serif italic">
-                        Global Liquidity <span className="bg-gradient-to-r from-stone-200 to-stone-500 bg-clip-text text-transparent">Network.</span>
+                    <h2 className="mt-4 text-4xl font-bold tracking-tight text-white md:text-5xl italic">
+                        Global Liquidity <span className="bg-gradient-to-r from-[#00DF89] to-[#00b870] bg-clip-text text-transparent">Network.</span>
                     </h2>
                     <p className="mt-6 text-lg text-stone-400 font-light leading-relaxed">
                         Hold, send, and receive money in multiple currencies with institutional-grade exchange rates and deep liquidity pools.
@@ -79,15 +79,15 @@ export function CurrencyProfiles() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.3, delay: index * 0.1 }}
-                            className="flex items-start gap-5 rounded-3xl border border-stone-800 bg-stone-900/20 p-6 backdrop-blur-sm transition-all duration-300 hover:border-amber-500/30 hover:bg-stone-900/40 hover:shadow-xl group"
+                            className="flex items-start gap-5 rounded-3xl border border-stone-800 bg-stone-900/20 p-6 backdrop-blur-sm transition-all duration-300 hover:border-[#00DF89]/30 hover:bg-stone-900/40 hover:shadow-xl group"
                         >
-                            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-stone-900 border border-stone-700 text-3xl shadow-inner group-hover:border-amber-500/50 transition-colors">
+                            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-stone-900 border border-stone-700 text-3xl shadow-inner group-hover:border-[#00DF89]/40 transition-colors">
                                 {currency.flag}
                             </div>
                             <div className="flex-1">
                                 <div className="flex items-center gap-2">
                                     <span className="font-bold text-white tracking-wide">{currency.code}</span>
-                                    <span className="text-sm font-medium text-amber-500/80">({currency.symbol})</span>
+                                    <span className="text-sm font-medium text-[#00DF89]/80">({currency.symbol})</span>
                                 </div>
                                 <p className="text-sm text-stone-300 mt-1 font-medium">{currency.name}</p>
                                 <p className="mt-2 text-xs text-stone-500 font-light leading-relaxed">{currency.description}</p>

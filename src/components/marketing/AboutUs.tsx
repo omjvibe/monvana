@@ -36,7 +36,7 @@ export function AboutUs() {
                         </span>
                         <h2 className="mt-6 text-4xl font-extrabold tracking-tight text-white md:text-5xl lg:text-6xl leading-tight">
                             Architecting the Future of{" "}
-                            <span className="bg-gradient-to-r from-[#00DF89] to-[#00b870] bg-clip-text text-transparent italic font-serif">
+                            <span className="bg-gradient-to-r from-[#00DF89] to-[#00b870] bg-clip-text text-transparent italic">
                                 Capital.
                             </span>
                         </h2>

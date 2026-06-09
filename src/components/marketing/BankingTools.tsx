@@ -55,7 +55,7 @@ export function BankingTools() {
     return (
         <section id="services" className="bg-[#0a0a0a] py-24 md:py-32 relative border-t border-stone-800">
             {/* Ambient Background Glow */}
-            <div className="absolute top-[20%] left-[10%] w-[40%] h-[40%] bg-amber-500/5 blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute top-[20%] left-[10%] w-[40%] h-[40%] bg-[#00DF89]/5 blur-[120px] rounded-full pointer-events-none" />
 
             <div className="container relative z-10 mx-auto px-4 md:px-6">
                 <motion.div
@@ -64,11 +64,11 @@ export function BankingTools() {
                     viewport={{ once: true }}
                     className="mx-auto max-w-3xl text-center"
                 >
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-500">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00DF89]">
                         Our Services
                     </span>
-                    <h2 className="mt-4 text-4xl font-bold tracking-tight text-white md:text-5xl font-serif italic">
-                        Popular Banking <span className="bg-gradient-to-r from-stone-200 to-stone-500 bg-clip-text text-transparent">Tools.</span>
+                    <h2 className="mt-4 text-4xl font-bold tracking-tight text-white md:text-5xl italic">
+                        Popular Banking <span className="bg-gradient-to-r from-[#00DF89] to-[#00b870] bg-clip-text text-transparent">Tools.</span>
                     </h2>
                     <p className="mt-6 text-lg text-stone-400 font-light leading-relaxed">
                         Everything you need to manage your finances in one place. Simple, secure, and always accessible.
@@ -86,18 +86,18 @@ export function BankingTools() {
                         >
                             <Link
                                 href={tool.href}
-                                className="group flex h-full flex-col rounded-3xl border border-stone-800 bg-stone-900/20 p-8 backdrop-blur-sm transition-all duration-300 hover:border-amber-500/30 hover:bg-stone-900/40 hover:shadow-xl"
+                                className="group flex h-full flex-col rounded-3xl border border-stone-800 bg-stone-900/20 p-8 backdrop-blur-sm transition-all duration-300 hover:border-[#00DF89]/30 hover:bg-stone-900/40 hover:shadow-xl"
                             >
-                                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-stone-900 border border-stone-700 transition-colors group-hover:border-amber-500/50">
-                                    <tool.icon className="h-6 w-6 text-stone-400 group-hover:text-amber-500 transition-colors" />
+                                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-stone-900 border border-stone-700 transition-colors group-hover:border-[#00DF89]/40">
+                                    <tool.icon className="h-6 w-6 text-stone-400 group-hover:text-[#00DF89] transition-colors" />
                                 </div>
-                                <h3 className="mt-6 text-xl font-semibold text-white group-hover:text-amber-400 transition-colors font-serif">
+                                <h3 className="mt-6 text-xl font-semibold text-white group-hover:text-[#00DF89] transition-colors">
                                     {tool.title}
                                 </h3>
                                 <p className="mt-4 flex-1 text-sm text-stone-400 font-light leading-relaxed">
                                     {tool.description}
                                 </p>
-                                <div className="mt-8 flex items-center text-sm font-medium text-amber-500 opacity-0 transition-all duration-300 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0">
+                                <div className="mt-8 flex items-center text-sm font-medium text-[#00DF89] opacity-0 transition-all duration-300 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0">
                                     Learn more
                                     <ArrowRight className="ml-2 h-4 w-4" />
                                 </div>

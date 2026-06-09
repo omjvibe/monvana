@@ -80,7 +80,7 @@ export function WhyChooseUs() {
                         </span>
                         <h2 className="mt-5 text-4xl font-extrabold tracking-tight text-white md:text-5xl leading-tight">
                             Banking Reimagined for the{" "}
-                            <span className="bg-gradient-to-r from-[#00DF89] to-[#00b870] bg-clip-text text-transparent italic font-serif">
+                            <span className="bg-gradient-to-r from-[#00DF89] to-[#00b870] bg-clip-text text-transparent italic">
                                 Modern Era.
                             </span>
                         </h2>

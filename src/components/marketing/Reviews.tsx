@@ -53,7 +53,7 @@ export function Reviews() {
     return (
         <section className="bg-[#0a0a0a] py-24 md:py-32 relative border-y border-stone-800">
             {/* Background elements */}
-            <div className="absolute top-0 right-0 w-[30%] h-[50%] bg-amber-500/5 blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute top-0 right-0 w-[30%] h-[50%] bg-[#00DF89]/5 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-[40%] h-[40%] bg-stone-500/10 blur-[100px] rounded-full pointer-events-none" />
 
             <div className="container relative z-10 mx-auto px-4 md:px-6">
@@ -63,10 +63,10 @@ export function Reviews() {
                     viewport={{ once: true }}
                     className="mx-auto max-w-3xl text-center"
                 >
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-500">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00DF89]">
                         Client Testimonials
                     </span>
-                    <h2 className="mt-4 text-4xl font-bold tracking-tight text-white md:text-5xl font-serif italic">
+                    <h2 className="mt-4 text-4xl font-bold tracking-tight text-white md:text-5xl italic">
                         The Standard of <span className="text-stone-400">Excellence</span>
                     </h2>
                     <p className="mt-6 text-lg text-stone-400 font-light">
@@ -82,7 +82,7 @@ export function Reviews() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="relative rounded-3xl border border-stone-800 bg-stone-900/20 p-8 backdrop-blur-sm hover:bg-stone-900/40 hover:border-amber-500/30 transition-all duration-300 group shadow-xl"
+                            className="relative rounded-3xl border border-stone-800 bg-stone-900/20 p-8 backdrop-blur-sm hover:bg-stone-900/40 hover:border-[#00DF89]/30 transition-all duration-300 group shadow-xl"
                         >
                             {/* Quote icon */}
                             <Quote className="absolute right-8 top-8 h-10 w-10 text-stone-800 group-hover:text-stone-700 transition-colors" />
@@ -93,7 +93,7 @@ export function Reviews() {
                                     <Star
                                         key={i}
                                         className={`h-4 w-4 ${i < review.rating
-                                            ? "fill-amber-400 text-amber-400"
+                                            ? "fill-[#00DF89] text-[#00DF89]"
                                             : "text-stone-700"
                                             }`}
                                     />
@@ -106,7 +106,7 @@ export function Reviews() {
                             {/* Author */}
                             <div className="flex items-center gap-4 border-t border-stone-800 pt-6 mt-auto">
                                 <Avatar className="h-12 w-12 border border-stone-700">
-                                    <AvatarFallback className="bg-stone-800 text-amber-400 font-serif italic">
+                                    <AvatarFallback className="bg-stone-800 text-[#00DF89] italic">
                                         {review.initials}
                                     </AvatarFallback>
                                 </Avatar>

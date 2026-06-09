@@ -52,7 +52,7 @@ export default function SessionExpiredPage() {
                     >
                         <ShieldAlert className="h-10 w-10 text-stone-400" />
                     </motion.div>
-                    <h1 className="text-3xl font-bold text-white tracking-tight mb-2 font-serif italic">
+                    <h1 className="text-3xl font-bold text-white tracking-tight mb-2 italic">
                         Session Expired
                     </h1>
                     <p className="text-stone-400">

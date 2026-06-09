@@ -27,7 +27,7 @@ export default function TermsPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="space-y-4 text-center mb-16"
                 >
-                    <h1 className="text-5xl font-serif italic mb-4">Terms of Operational Sovereignty</h1>
+                    <h1 className="text-5xl italic mb-4">Terms of Operational Sovereignty</h1>
                     <p className="text-stone-500 max-w-2xl mx-auto lead">
                         Governing the partnership between Monvana International and our global clientele.
                         By accessing our ecosystem, you agree to the highest standards of financial conduct and institutional integrity.
@@ -42,7 +42,7 @@ export default function TermsPage() {
                     <section className="space-y-6">
                         <div className="flex items-center gap-3 text-stone-900 dark:text-stone-100">
                             <Scale className="h-6 w-6 text-stone-400" />
-                            <h2 className="text-2xl font-semibold italic font-serif">1. Compliance & Verification Obligations</h2>
+                            <h2 className="text-2xl font-semibold italic">1. Compliance & Verification Obligations</h2>
                         </div>
                         <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 p-8 rounded-3xl space-y-6 leading-relaxed">
                             <div>
@@ -57,8 +57,8 @@ export default function TermsPage() {
                                     Monvana reserves the right to restrict account functionality, including withdrawals and transfers, until Know Your Customer (KYC) verification is successfully completed and approved by our manual review team.
                                 </p>
                             </div>
-                            <div className="bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 p-4 rounded-r-xl">
-                                <p className="text-sm font-medium text-amber-900 dark:text-amber-400">
+                            <div className="bg-[#00DF89]/5 border-l-4 border-[#00DF89] p-4 rounded-r-xl">
+                                <p className="text-sm font-medium text-stone-900 dark:text-stone-400">
                                     The "Verification" dashboard is the primary instrument of compliance. Failure to submit required documents within 14 days of account opening may result in automatic account suspension.
                                 </p>
                             </div>
@@ -69,7 +69,7 @@ export default function TermsPage() {
                     <section className="space-y-6">
                         <div className="flex items-center gap-3 text-stone-900 dark:text-stone-100">
                             <Landmark className="h-6 w-6 text-stone-400" />
-                            <h2 className="text-2xl font-semibold italic font-serif">2. Institutional Limitations</h2>
+                            <h2 className="text-2xl font-semibold italic">2. Institutional Limitations</h2>
                         </div>
                         <div className="grid md:grid-cols-2 gap-6 text-sm">
                             <div className="p-6 border border-stone-200 dark:border-stone-800 rounded-2xl">
@@ -89,7 +89,7 @@ export default function TermsPage() {
                     <section className="space-y-6">
                         <div className="flex items-center gap-3 text-stone-900 dark:text-stone-100">
                             <ChevronRight className="h-6 w-6 text-stone-400" />
-                            <h2 className="text-2xl font-semibold italic font-serif">3. Governing Law and Jurisdiction</h2>
+                            <h2 className="text-2xl font-semibold italic">3. Governing Law and Jurisdiction</h2>
                         </div>
                         <p className="text-stone-600 dark:text-stone-400 leading-relaxed">
                             These terms are governed by the laws of Switzerland. Any disputes arising from the verification process or account sovereignty shall be settled through binding arbitration in the Canton of Zurich.

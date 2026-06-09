@@ -36,7 +36,7 @@ export function CTA() {
 
                     <h2 className="text-4xl font-extrabold tracking-tight text-white md:text-5xl lg:text-6xl leading-tight">
                         Ready to Experience{" "}
-                        <span className="bg-gradient-to-r from-[#00DF89] to-[#00b870] bg-clip-text text-transparent italic font-serif">
+                        <span className="bg-gradient-to-r from-[#00DF89] to-[#00b870] bg-clip-text text-transparent italic">
                             Premium Banking?
                         </span>
                     </h2>

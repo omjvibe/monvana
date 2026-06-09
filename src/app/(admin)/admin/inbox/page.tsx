@@ -287,7 +287,7 @@ export default function AdminInboxPage() {
         <div className="flex flex-col h-[calc(100vh-140px)] overflow-hidden space-y-4">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-stone-900 dark:text-stone-100 italic font-serif">Monvana Bank Inbox</h1>
+                    <h1 className="text-2xl font-bold text-stone-900 dark:text-stone-100 italic">Monvana Bank Inbox</h1>
                     <p className="text-sm text-stone-500">Manage premium client communications</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -601,7 +601,7 @@ export default function AdminInboxPage() {
                         ) : (
                             <div className="flex flex-col items-center justify-center h-full text-stone-400 p-12 text-center">
                                 <Mail className="h-16 w-16 mb-4 opacity-10" />
-                                <h3 className="text-lg font-medium text-stone-900 dark:text-stone-100 italic font-serif">No Message Selected</h3>
+                                <h3 className="text-lg font-medium text-stone-900 dark:text-stone-100 italic">No Message Selected</h3>
                                 <p className="text-sm dark:text-stone-500 max-w-xs mt-2 font-light">
                                     Select a message from the list to view its contents and initiate strategic communication.
                                 </p>
@@ -622,7 +622,7 @@ export default function AdminInboxPage() {
                             className="bg-white dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-3xl shadow-2xl w-full max-w-3xl overflow-hidden"
                         >
                             <div className="p-6 border-b border-stone-100 dark:border-stone-900 flex justify-between items-center">
-                                <h3 className="text-xl font-serif italic text-stone-900 dark:text-stone-100">Draft New Message</h3>
+                                <h3 className="text-xl italic text-stone-900 dark:text-stone-100">Draft New Message</h3>
                                 <div className="flex items-center gap-4">
                                     <div className="flex bg-stone-100 dark:bg-stone-900 rounded-lg p-1">
                                         <Button

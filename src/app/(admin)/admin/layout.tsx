@@ -96,7 +96,7 @@ export default function AdminDashboardLayout({
                             <Image src="/monvanalogo.jpg" alt={BANK_NAME} width={32} height={32} className="object-cover" />
                         </div>
                         <div>
-                            <span className="text-lg font-semibold italic">Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span></span>
+                            <span className="text-lg font-semibold italic">Monvana<span className="text-[#00DF89] font-medium italic ml-0.5">Bank</span></span>
                             <Badge variant="secondary" className="ml-2 text-xs">
                                 Admin
                             </Badge>
@@ -144,7 +144,7 @@ export default function AdminDashboardLayout({
                                 <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-stone-100 dark:bg-stone-800">
                                     <Image src="/monvanalogo.jpg" alt={BANK_NAME} width={32} height={32} className="object-cover" />
                                 </div>
-                                <span className="text-lg font-semibold italic">Monvana<span className="text-[#00DF89] font-medium font-serif italic ml-0.5">Bank</span></span>
+                                <span className="text-lg font-semibold italic">Monvana<span className="text-[#00DF89] font-medium italic ml-0.5">Bank</span></span>
                             </div>
                             <ScrollArea className="flex-1 px-4 py-4">
                                 <nav className="space-y-1">
