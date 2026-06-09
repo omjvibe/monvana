@@ -1,7 +1,7 @@
 -- =====================================================
 -- MONVANA BANK - SIGNUP DEBUG FUNCTION
 -- Migration: 034_debug_signup.sql
--- Description: Exposes an RPC to simulate handle_new_user and return the exact SQL error
+-- Description: Exposes RPCs to simulate handle_new_user and inspect triggers on auth.users
 -- =====================================================
 
 CREATE OR REPLACE FUNCTION public.debug_signup(
@@ -104,3 +104,26 @@ BEGIN
     END;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+
+-- Helper to retrieve triggers defined on auth.users
+CREATE OR REPLACE FUNCTION public.get_auth_triggers()
+RETURNS TABLE (
+    trigger_name TEXT,
+    action_timing TEXT,
+    event_manipulation TEXT,
+    function_name TEXT
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        t.tgname::text AS trigger_name,
+        CASE (t.tgtype & 2)::boolean WHEN true THEN 'BEFORE' ELSE 'AFTER' END::text AS action_timing,
+        CASE (t.tgtype & 4)::boolean WHEN true THEN 'INSERT' ELSE 'UPDATE' END::text AS event_manipulation,
+        p.proname::text AS function_name
+    FROM pg_trigger t
+    JOIN pg_class c ON t.tgrelid = c.oid
+    JOIN pg_namespace n ON c.relnamespace = n.oid
+    JOIN pg_proc p ON t.tgfoid = p.oid
+    WHERE n.nspname = 'auth' AND c.relname = 'users';
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
