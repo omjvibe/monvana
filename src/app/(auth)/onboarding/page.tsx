@@ -138,9 +138,9 @@ export default function OnboardingPage() {
 
                 if (response.ok) {
                     const data = await response.json();
-                    if (data.status && data.status !== "not_found") {
-                        console.log("[ONBOARDING] Profile found, redirecting to dashboard...");
-                        // User already has a profile — redirect to dashboard
+                    if (data.isOnboarded) {
+                        console.log("[ONBOARDING] Profile already onboarded, redirecting to dashboard...");
+                        // User is already fully onboarded — redirect to dashboard
                         window.location.href = data.role === "admin" ? "/admin" : "/user";
                         return;
                     }

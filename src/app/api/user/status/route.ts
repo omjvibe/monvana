@@ -24,7 +24,7 @@ export async function GET() {
         // Check user status in database
         const { data: user, error } = await supabase
             .from("users")
-            .select("id, status, role, first_name, last_name, email")
+            .select("id, status, role, first_name, last_name, email, country, occupation")
             .eq("clerk_id", userId)
             .single();
 
@@ -46,6 +46,7 @@ export async function GET() {
             email: user.email,
             isSuspended: user.status === "suspended",
             isDeleted: user.status === "deleted",
+            isOnboarded: !!(user.country && user.occupation),
         });
 
     } catch (error) {

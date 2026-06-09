@@ -127,7 +127,7 @@ export async function middleware(request: NextRequest) {
     try {
         const { data } = await supabase
             .from("users")
-            .select("id, role")
+            .select("id, role, country, occupation")
             .eq("clerk_id", user.id)
             .single();
         dbUser = data;
@@ -135,8 +135,15 @@ export async function middleware(request: NextRequest) {
         console.error("Error fetching db user in middleware:", error);
     }
 
+    const isOnboarded = dbUser && dbUser.country && dbUser.occupation;
+
+    // Enforce onboarding for user routes if profile is not fully set up
+    if (!isOnboarded && !isOnboardingRoute && !isPublicRoute && !isApiRoute) {
+        return NextResponse.redirect(new URL("/onboarding", request.url));
+    }
+
     if (isOnboardingRoute || path === "/") {
-        if (dbUser) {
+        if (isOnboarded) {
             const redirectTo = dbUser.role === "admin" ? "/admin" : "/user";
             const res = NextResponse.redirect(new URL(redirectTo, request.url));
             res.cookies.set("last_active_at", currentTime.toString(), {
