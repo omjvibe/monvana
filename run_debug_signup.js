@@ -1,7 +1,26 @@
 const crypto = require('crypto');
 
-const serviceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InByYXRrcHd6Y3lxc3ZxcHVjcmp3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDg1NzIxOSwiZXhwIjoyMDk2NDMzMjE5fQ.yl__Xg23niLhnc5sqYwHurUuJm5fvBzBNIReiiE8Qjw';
-const url = 'https://pratkpwzcyqsvqpucrjw.supabase.co/rest/v1';
+const fs = require('fs');
+const path = require('path');
+
+// Read .env.local dynamically to avoid hardcoding secrets
+const envPath = path.join(__dirname, '.env.local');
+let serviceKey = '';
+let url = '';
+
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, 'utf8');
+  const lines = envContent.split('\n');
+  for (const line of lines) {
+    if (line.startsWith('SUPABASE_SERVICE_ROLE_KEY=')) {
+      serviceKey = line.split('=')[1].trim();
+    } else if (line.startsWith('NEXT_PUBLIC_SUPABASE_URL=')) {
+      const baseUrl = line.split('=')[1].trim();
+      url = `${baseUrl}/rest/v1`;
+    }
+  }
+}
+
 
 async function test() {
   try {
