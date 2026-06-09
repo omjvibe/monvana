@@ -12,7 +12,6 @@ Ensure you have the following installed:
 - **Git**
 
 You will also need accounts with:
-1. [Clerk](https://clerk.com/) (for authentication)
 2. [Supabase](https://supabase.com/) (for the PostgreSQL database)
 3. [Resend](https://resend.com/) (for transactional and inbound emails)
 
