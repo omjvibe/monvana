@@ -145,7 +145,7 @@ export async function middleware(request: NextRequest) {
 
     if (isOnboardingRoute || path === "/") {
         if (isOnboarded) {
-            const redirectTo = dbUser.role === "admin" ? "/admin" : "/user";
+            const redirectTo = dbUser?.role === "admin" ? "/admin" : "/user";
             const res = NextResponse.redirect(new URL(redirectTo, request.url));
             res.cookies.set("last_active_at", currentTime.toString(), {
                 path: "/",
