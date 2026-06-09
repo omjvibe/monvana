@@ -1,7 +1,7 @@
 -- =====================================================
 -- MONVANA BANK - SUPABASE AUTH USER SYNC FIX (HARDENED)
 -- Migration: 033_fix_signup_trigger.sql
--- Description: Hardens account generation and sync triggers to prevent signup/update 500 errors
+-- Description: Hardens account generation and sync triggers to prevent signup/update/delete 500 errors
 -- =====================================================
 
 -- 1. Redefine account number generator with explicit schema references and search_path isolation
@@ -164,26 +164,44 @@ CREATE TRIGGER on_auth_user_created
     AFTER INSERT ON auth.users
     FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
--- 4. Redefine handle_updated_user with search_path isolation
+-- 4. Redefine handle_updated_user with search_path isolation and non-blocking exception handling
 CREATE OR REPLACE FUNCTION public.handle_updated_user()
 RETURNS TRIGGER AS $$
 DECLARE
     first_name TEXT;
     last_name TEXT;
 BEGIN
-    first_name := COALESCE(new.raw_user_meta_data->>'first_name', '');
-    last_name := COALESCE(new.raw_user_meta_data->>'last_name', '');
-    
-    UPDATE public.users SET
-        email = new.email,
-        first_name = NULLIF(first_name, ''),
-        last_name = NULLIF(last_name, ''),
-        avatar_url = new.raw_user_meta_data->>'avatar_url',
-        phone = new.raw_user_meta_data->>'phone',
-        role = COALESCE(new.raw_user_meta_data->>'role', role)
-    WHERE clerk_id = new.id::text;
-    
-    RETURN NEW;
+    BEGIN
+        first_name := COALESCE(new.raw_user_meta_data->>'first_name', '');
+        last_name := COALESCE(new.raw_user_meta_data->>'last_name', '');
+        
+        UPDATE public.users SET
+            email = new.email,
+            first_name = NULLIF(first_name, ''),
+            last_name = NULLIF(last_name, ''),
+            avatar_url = new.raw_user_meta_data->>'avatar_url',
+            phone = new.raw_user_meta_data->>'phone',
+            role = COALESCE(new.raw_user_meta_data->>'role', role)
+        WHERE clerk_id = new.id::text;
+        
+        RETURN NEW;
+    EXCEPTION WHEN OTHERS THEN
+        -- Log the failure to audit_logs so we can see the exact error
+        INSERT INTO public.audit_logs (
+            action, details, category
+        ) VALUES (
+            'update_trigger_failed',
+            jsonb_build_object(
+                'error_message', SQLERRM,
+                'sql_state', SQLSTATE,
+                'email', new.email,
+                'user_id', new.id::text
+            ),
+            'auth'
+        );
+        -- Return NEW to allow the update to succeed
+        RETURN NEW;
+    END;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
@@ -193,12 +211,30 @@ CREATE TRIGGER on_auth_user_updated
     AFTER UPDATE ON auth.users
     FOR EACH ROW EXECUTE FUNCTION public.handle_updated_user();
 
--- 5. Redefine handle_deleted_user with search_path isolation
+-- 5. Redefine handle_deleted_user with search_path isolation and non-blocking exception handling
 CREATE OR REPLACE FUNCTION public.handle_deleted_user()
 RETURNS TRIGGER AS $$
 BEGIN
-    DELETE FROM public.users WHERE clerk_id = old.id::text;
-    RETURN OLD;
+    BEGIN
+        DELETE FROM public.users WHERE clerk_id = old.id::text;
+        RETURN OLD;
+    EXCEPTION WHEN OTHERS THEN
+        -- Log the failure to audit_logs so we can see the exact error
+        INSERT INTO public.audit_logs (
+            action, details, category
+        ) VALUES (
+            'delete_trigger_failed',
+            jsonb_build_object(
+                'error_message', SQLERRM,
+                'sql_state', SQLSTATE,
+                'email', old.email,
+                'user_id', old.id::text
+            ),
+            'auth'
+        );
+        -- Return OLD to allow the delete to succeed
+        RETURN OLD;
+    END;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
