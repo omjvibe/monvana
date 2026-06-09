@@ -57,68 +57,157 @@ ALTER TABLE public.admin_emails ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.kyc_submissions ENABLE ROW LEVEL SECURITY;
 
 -- 4. Helper macro to drop all existing policies on a table
--- Drop old policies
+-- Drop old and new policies to ensure idempotency
 DROP POLICY IF EXISTS "Enable read for users table" ON public.users;
 DROP POLICY IF EXISTS "Enable update for users table" ON public.users;
 DROP POLICY IF EXISTS "Enable insert for users table" ON public.users;
 DROP POLICY IF EXISTS "Admins can delete users" ON public.users;
+DROP POLICY IF EXISTS "users_select" ON public.users;
+DROP POLICY IF EXISTS "users_insert" ON public.users;
+DROP POLICY IF EXISTS "users_update" ON public.users;
+DROP POLICY IF EXISTS "users_delete" ON public.users;
 
 DROP POLICY IF EXISTS "Enable read for wallets" ON public.wallets;
 DROP POLICY IF EXISTS "Enable update for wallets" ON public.wallets;
 DROP POLICY IF EXISTS "Enable insert for wallets" ON public.wallets;
 DROP POLICY IF EXISTS "Enable delete for wallets" ON public.wallets;
+DROP POLICY IF EXISTS "wallets_select" ON public.wallets;
+DROP POLICY IF EXISTS "wallets_insert" ON public.wallets;
+DROP POLICY IF EXISTS "wallets_update" ON public.wallets;
+DROP POLICY IF EXISTS "wallets_delete" ON public.wallets;
 
 DROP POLICY IF EXISTS "Enable read for transactions" ON public.transactions;
 DROP POLICY IF EXISTS "Enable insert for transactions" ON public.transactions;
 DROP POLICY IF EXISTS "Enable update for transactions" ON public.transactions;
+DROP POLICY IF EXISTS "transactions_select" ON public.transactions;
+DROP POLICY IF EXISTS "transactions_insert" ON public.transactions;
+DROP POLICY IF EXISTS "transactions_update" ON public.transactions;
+DROP POLICY IF EXISTS "transactions_delete" ON public.transactions;
 
 DROP POLICY IF EXISTS "Enable read for billing_codes" ON public.billing_codes;
 DROP POLICY IF EXISTS "Enable insert for billing_codes" ON public.billing_codes;
 DROP POLICY IF EXISTS "Enable update for billing_codes" ON public.billing_codes;
+DROP POLICY IF EXISTS "billing_codes_select" ON public.billing_codes;
+DROP POLICY IF EXISTS "billing_codes_insert" ON public.billing_codes;
+DROP POLICY IF EXISTS "billing_codes_update" ON public.billing_codes;
+DROP POLICY IF EXISTS "billing_codes_delete" ON public.billing_codes;
 
 DROP POLICY IF EXISTS "Enable read for loans" ON public.loans;
 DROP POLICY IF EXISTS "Enable insert for loans" ON public.loans;
 DROP POLICY IF EXISTS "Enable update for loans" ON public.loans;
+DROP POLICY IF EXISTS "loans_select" ON public.loans;
+DROP POLICY IF EXISTS "loans_insert" ON public.loans;
+DROP POLICY IF EXISTS "loans_update" ON public.loans;
+DROP POLICY IF EXISTS "loans_delete" ON public.loans;
 
 DROP POLICY IF EXISTS "Anyone can view active investment plans" ON public.investment_plans;
+DROP POLICY IF EXISTS "investment_plans_select" ON public.investment_plans;
+DROP POLICY IF EXISTS "investment_plans_all" ON public.investment_plans;
+
 DROP POLICY IF EXISTS "Enable read for investments" ON public.investments;
 DROP POLICY IF EXISTS "Enable insert for investments" ON public.investments;
+DROP POLICY IF EXISTS "investments_select" ON public.investments;
+DROP POLICY IF EXISTS "investments_insert" ON public.investments;
+DROP POLICY IF EXISTS "investments_update" ON public.investments;
+DROP POLICY IF EXISTS "investments_delete" ON public.investments;
 
 DROP POLICY IF EXISTS "Anyone can view active charities" ON public.charities;
+DROP POLICY IF EXISTS "charities_select" ON public.charities;
+DROP POLICY IF EXISTS "charities_all" ON public.charities;
+
 DROP POLICY IF EXISTS "Enable read for donations" ON public.donations;
 DROP POLICY IF EXISTS "Enable insert for donations" ON public.donations;
+DROP POLICY IF EXISTS "donations_select" ON public.donations;
+DROP POLICY IF EXISTS "donations_insert" ON public.donations;
+DROP POLICY IF EXISTS "donations_update" ON public.donations;
+DROP POLICY IF EXISTS "donations_delete" ON public.donations;
 
 DROP POLICY IF EXISTS "Enable read for virtual_cards" ON public.virtual_cards;
 DROP POLICY IF EXISTS "Enable insert for virtual_cards" ON public.virtual_cards;
 DROP POLICY IF EXISTS "Enable update for virtual_cards" ON public.virtual_cards;
+DROP POLICY IF EXISTS "virtual_cards_select" ON public.virtual_cards;
+DROP POLICY IF EXISTS "virtual_cards_insert" ON public.virtual_cards;
+DROP POLICY IF EXISTS "virtual_cards_update" ON public.virtual_cards;
+DROP POLICY IF EXISTS "virtual_cards_delete" ON public.virtual_cards;
 
 DROP POLICY IF EXISTS "Enable read for crypto_addresses" ON public.crypto_addresses;
 DROP POLICY IF EXISTS "Enable insert for crypto_addresses" ON public.crypto_addresses;
+DROP POLICY IF EXISTS "crypto_addresses_select" ON public.crypto_addresses;
+DROP POLICY IF EXISTS "crypto_addresses_insert" ON public.crypto_addresses;
+DROP POLICY IF EXISTS "crypto_addresses_update" ON public.crypto_addresses;
+DROP POLICY IF EXISTS "crypto_addresses_delete" ON public.crypto_addresses;
 
 DROP POLICY IF EXISTS "Enable read for messages" ON public.messages;
 DROP POLICY IF EXISTS "Enable insert for messages" ON public.messages;
 DROP POLICY IF EXISTS "Enable update for messages" ON public.messages;
+DROP POLICY IF EXISTS "messages_select" ON public.messages;
+DROP POLICY IF EXISTS "messages_insert" ON public.messages;
+DROP POLICY IF EXISTS "messages_update" ON public.messages;
+DROP POLICY IF EXISTS "messages_delete" ON public.messages;
 
 DROP POLICY IF EXISTS "Enable read for audit_logs" ON public.audit_logs;
 DROP POLICY IF EXISTS "Enable insert for audit_logs" ON public.audit_logs;
+DROP POLICY IF EXISTS "audit_logs_select" ON public.audit_logs;
+DROP POLICY IF EXISTS "audit_logs_insert" ON public.audit_logs;
+DROP POLICY IF EXISTS "audit_logs_all" ON public.audit_logs;
+
+DROP POLICY IF EXISTS "bank_info_select" ON public.bank_info;
+DROP POLICY IF EXISTS "bank_info_all" ON public.bank_info;
+
+DROP POLICY IF EXISTS "referrals_select" ON public.referrals;
+DROP POLICY IF EXISTS "referrals_all" ON public.referrals;
 
 DROP POLICY IF EXISTS "Enable all for favorite_contacts" ON public.favorite_contacts;
+DROP POLICY IF EXISTS "favorite_contacts_select" ON public.favorite_contacts;
+DROP POLICY IF EXISTS "favorite_contacts_insert" ON public.favorite_contacts;
+DROP POLICY IF EXISTS "favorite_contacts_update" ON public.favorite_contacts;
+DROP POLICY IF EXISTS "favorite_contacts_delete" ON public.favorite_contacts;
+
 DROP POLICY IF EXISTS "Enable read for notifications" ON public.notifications;
 DROP POLICY IF EXISTS "Enable insert for notifications" ON public.notifications;
 DROP POLICY IF EXISTS "Enable update for notifications" ON public.notifications;
+DROP POLICY IF EXISTS "notifications_select" ON public.notifications;
+DROP POLICY IF EXISTS "notifications_update" ON public.notifications;
+DROP POLICY IF EXISTS "notifications_insert" ON public.notifications;
+DROP POLICY IF EXISTS "notifications_delete" ON public.notifications;
 
 DROP POLICY IF EXISTS "Enable read for loan_applications" ON public.loan_applications;
 DROP POLICY IF EXISTS "Enable insert for loan_applications" ON public.loan_applications;
 DROP POLICY IF EXISTS "Enable update for loan_applications" ON public.loan_applications;
+DROP POLICY IF EXISTS "loan_applications_select" ON public.loan_applications;
+DROP POLICY IF EXISTS "loan_applications_insert" ON public.loan_applications;
+DROP POLICY IF EXISTS "loan_applications_update" ON public.loan_applications;
+DROP POLICY IF EXISTS "loan_applications_delete" ON public.loan_applications;
 
 DROP POLICY IF EXISTS "Enable all for loan_documents" ON public.loan_documents;
+DROP POLICY IF EXISTS "loan_documents_select" ON public.loan_documents;
+DROP POLICY IF EXISTS "loan_documents_all" ON public.loan_documents;
+
 DROP POLICY IF EXISTS "Anyone can view bank settings" ON public.bank_settings;
+DROP POLICY IF EXISTS "bank_settings_select" ON public.bank_settings;
+DROP POLICY IF EXISTS "bank_settings_all" ON public.bank_settings;
+
 DROP POLICY IF EXISTS "Anyone can view exchange rates" ON public.exchange_rates;
 DROP POLICY IF EXISTS "Service role can manage exchange rates" ON public.exchange_rates;
+DROP POLICY IF EXISTS "exchange_rates_select" ON public.exchange_rates;
+DROP POLICY IF EXISTS "exchange_rates_all" ON public.exchange_rates;
+
 DROP POLICY IF EXISTS "Users can view deposit methods" ON public.deposit_methods;
 DROP POLICY IF EXISTS "Service role can manage deposit methods" ON public.deposit_methods;
+DROP POLICY IF EXISTS "deposit_methods_select" ON public.deposit_methods;
+DROP POLICY IF EXISTS "deposit_methods_all" ON public.deposit_methods;
+
 DROP POLICY IF EXISTS "Users can view own otps" ON public.otps;
 DROP POLICY IF EXISTS "Service role has full access to otps" ON public.otps;
+DROP POLICY IF EXISTS "otps_select" ON public.otps;
+DROP POLICY IF EXISTS "otps_all" ON public.otps;
+
+DROP POLICY IF EXISTS "admin_emails_all" ON public.admin_emails;
+
+DROP POLICY IF EXISTS "kyc_submissions_select" ON public.kyc_submissions;
+DROP POLICY IF EXISTS "kyc_submissions_insert" ON public.kyc_submissions;
+DROP POLICY IF EXISTS "kyc_submissions_update" ON public.kyc_submissions;
+DROP POLICY IF EXISTS "kyc_submissions_delete" ON public.kyc_submissions;
 
 
 -- 5. CREATE NEW SECURE POLICIES
