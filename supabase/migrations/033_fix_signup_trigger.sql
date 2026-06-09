@@ -1,7 +1,7 @@
 -- =====================================================
--- MONVANA BANK - SUPABASE AUTH USER SYNC FIX
+-- MONVANA BANK - SUPABASE AUTH USER SYNC FIX (HARDENED)
 -- Migration: 033_fix_signup_trigger.sql
--- Description: Hardens account generation and sync trigger to prevent signup 500 errors
+-- Description: Hardens account generation and sync triggers to prevent signup/update 500 errors
 -- =====================================================
 
 -- 1. Redefine account number generator with explicit schema references and search_path isolation
@@ -22,7 +22,24 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
--- 2. Redefine handle_new_user to catch any database exceptions and report them clearly
+-- 2. Redefine generate_referral_code with search_path isolation
+CREATE OR REPLACE FUNCTION public.generate_referral_code()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.referral_code IS NULL THEN
+        NEW.referral_code := UPPER(SUBSTRING(MD5(RANDOM()::TEXT) FROM 1 FOR 8));
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+
+-- Re-create the set_referral_code_trigger trigger
+DROP TRIGGER IF EXISTS set_referral_code_trigger ON public.users;
+CREATE TRIGGER set_referral_code_trigger
+    BEFORE INSERT ON public.users
+    FOR EACH ROW EXECUTE FUNCTION public.generate_referral_code();
+
+-- 3. Redefine handle_new_user to handle conflicts on existing emails and catch all exceptions
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -40,7 +57,7 @@ BEGIN
         first_name := COALESCE(new.raw_user_meta_data->>'first_name', '');
         last_name := COALESCE(new.raw_user_meta_data->>'last_name', '');
         
-        -- Insert user into public.users
+        -- Insert user into public.users with ON CONFLICT resolution
         INSERT INTO public.users (
             clerk_id,
             email,
@@ -62,6 +79,15 @@ BEGIN
             'active',
             FALSE
         )
+        ON CONFLICT (email) DO UPDATE SET
+            clerk_id = EXCLUDED.clerk_id,
+            first_name = COALESCE(EXCLUDED.first_name, public.users.first_name),
+            last_name = COALESCE(EXCLUDED.last_name, public.users.last_name),
+            avatar_url = COALESCE(EXCLUDED.avatar_url, public.users.avatar_url),
+            phone = COALESCE(EXCLUDED.phone, public.users.phone),
+            role = EXCLUDED.role,
+            status = 'active',
+            updated_at = NOW()
         RETURNING id INTO new_user_id;
 
         -- Account name for wallets
@@ -79,7 +105,7 @@ BEGIN
             user_id, currency, balance, account_type, account_number, account_name, is_primary
         ) VALUES (
             new_user_id, 'USD', 0.00, 'savings', usd_acc, acc_name, TRUE
-        );
+        ) ON CONFLICT (user_id, currency) DO NOTHING;
 
         -- Create crypto wallets (BTC, ETH, USDT)
         btc_acc := public.generate_account_number();
@@ -87,21 +113,21 @@ BEGIN
             user_id, currency, balance, account_type, account_number, account_name, is_primary
         ) VALUES (
             new_user_id, 'BTC', 0.00, 'crypto', btc_acc, acc_name || ' - BTC', FALSE
-        );
+        ) ON CONFLICT (user_id, currency) DO NOTHING;
 
         eth_acc := public.generate_account_number();
         INSERT INTO public.wallets (
             user_id, currency, balance, account_type, account_number, account_name, is_primary
         ) VALUES (
             new_user_id, 'ETH', 0.00, 'crypto', eth_acc, acc_name || ' - ETH', FALSE
-        );
+        ) ON CONFLICT (user_id, currency) DO NOTHING;
 
         usdt_acc := public.generate_account_number();
         INSERT INTO public.wallets (
             user_id, currency, balance, account_type, account_number, account_name, is_primary
         ) VALUES (
             new_user_id, 'USDT', 0.00, 'crypto', usdt_acc, acc_name || ' - USDT', FALSE
-        );
+        ) ON CONFLICT (user_id, currency) DO NOTHING;
 
         -- Log audit action
         INSERT INTO public.audit_logs (
@@ -119,8 +145,52 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
--- 3. Re-create the trigger to execute public.handle_new_user()
+-- Re-create the trigger to execute public.handle_new_user()
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
     AFTER INSERT ON auth.users
     FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- 4. Redefine handle_updated_user with search_path isolation
+CREATE OR REPLACE FUNCTION public.handle_updated_user()
+RETURNS TRIGGER AS $$
+DECLARE
+    first_name TEXT;
+    last_name TEXT;
+BEGIN
+    first_name := COALESCE(new.raw_user_meta_data->>'first_name', '');
+    last_name := COALESCE(new.raw_user_meta_data->>'last_name', '');
+    
+    UPDATE public.users SET
+        email = new.email,
+        first_name = NULLIF(first_name, ''),
+        last_name = NULLIF(last_name, ''),
+        avatar_url = new.raw_user_meta_data->>'avatar_url',
+        phone = new.raw_user_meta_data->>'phone',
+        role = COALESCE(new.raw_user_meta_data->>'role', role)
+    WHERE clerk_id = new.id::text;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+
+-- Re-create the trigger to execute public.handle_updated_user()
+DROP TRIGGER IF EXISTS on_auth_user_updated ON auth.users;
+CREATE TRIGGER on_auth_user_updated
+    AFTER UPDATE ON auth.users
+    FOR EACH ROW EXECUTE FUNCTION public.handle_updated_user();
+
+-- 5. Redefine handle_deleted_user with search_path isolation
+CREATE OR REPLACE FUNCTION public.handle_deleted_user()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM public.users WHERE clerk_id = old.id::text;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+
+-- Re-create the trigger to execute public.handle_deleted_user()
+DROP TRIGGER IF EXISTS on_auth_user_deleted ON auth.users;
+CREATE TRIGGER on_auth_user_deleted
+    AFTER DELETE ON auth.users
+    FOR EACH ROW EXECUTE FUNCTION public.handle_deleted_user();
