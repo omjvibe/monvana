@@ -139,8 +139,21 @@ BEGIN
 
         RETURN NEW;
     EXCEPTION WHEN OTHERS THEN
-        -- Re-raise exception with clean context
-        RAISE EXCEPTION 'handle_new_user trigger failed: %, STATE: %', SQLERRM, SQLSTATE;
+        -- Log the failure to audit_logs so we can see the exact error
+        INSERT INTO public.audit_logs (
+            action, details, category
+        ) VALUES (
+            'signup_trigger_failed',
+            jsonb_build_object(
+                'error_message', SQLERRM,
+                'sql_state', SQLSTATE,
+                'email', new.email,
+                'user_id', new.id::text
+            ),
+            'auth'
+        );
+        -- Return NEW to allow the auth signup to succeed rather than crash the frontend
+        RETURN NEW;
     END;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
